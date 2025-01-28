@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectsController;
 use App\Http\Requests\StoreClientsRequest;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientsController;
@@ -26,6 +27,13 @@ Route::middleware(['jwt.auth'])->group(function () {
         Route::get('/{client}', [ClientsController::class, 'show']);
         Route::put('/{client}', [ClientsController::class, 'update']);
         Route::delete('/{client}', [ClientsController::class, 'destroy']);
+    });
+    Route::prefix('/projects')->group(function () {
+        Route::get('/', [ProjectsController::class, 'index']);
+        Route::post('/', [ProjectsController::class, 'store']);
+        Route::get('/{project}', [ProjectsController::class, 'show']);
+        Route::put('/{project}', [ProjectsController::class, 'update']);
+        Route::delete('/{project}', [ProjectsController::class, 'destroy']);
     });
 });
 
