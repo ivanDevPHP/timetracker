@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Requests\StoreClientsRequest;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::prefix('/clients')->group(function () {
+        Route::get('/', [ClientsController::class, 'index']);
+        Route::post('/', [ClientsController::class, 'store']);
+        Route::get('/{client}', [ClientsController::class, 'show']);
+        Route::put('/{client}', [ClientsController::class, 'update']);
+        Route::delete('/{client}', [ClientsController::class, 'destroy']);
+    });
+});
+
+
+
+
