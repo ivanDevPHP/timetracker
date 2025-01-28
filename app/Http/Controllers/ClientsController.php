@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreClientsRequest;
 use App\Http\Resources\ClientsResource;
 use App\Models\Clients;
+use Illuminate\Console\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -17,8 +20,10 @@ class ClientsController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         // Retrieve all clients from the database
         $clients = Clients::where('active', 1)->get();
@@ -29,6 +34,9 @@ class ClientsController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return ClientsResource|JsonResponse
      */
     public function store(Request $request): ClientsResource|JsonResponse
     {
@@ -62,8 +70,11 @@ class ClientsController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param string $id
+     * @return ClientsResource|JsonResponse
      */
-    public function show(string $id)
+    public function show(string $id): ClientsResource|JsonResponse
     {
         try {
             $client = Clients::where('id', $id)->where('active', 1)->firstOrFail();
@@ -80,8 +91,12 @@ class ClientsController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param string $id
+     * @return ClientsResource|JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): ClientsResource|JsonResponse
     {
         try {
             $this->ensureAdmin();
@@ -127,8 +142,11 @@ class ClientsController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param string $id
+     * @return Application|ResponseFactory|JsonResponse|Response
      */
-    public function destroy(string $id)
+    public function destroy(string $id): Application|ResponseFactory|JsonResponse|Response
     {
         try{
             $this->ensureAdmin();
