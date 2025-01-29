@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\TimeEntriesController;
 use App\Http\Requests\StoreClientsRequest;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientsController;
@@ -34,6 +35,13 @@ Route::middleware(['jwt.auth'])->group(function () {
         Route::get('/{project}', [ProjectsController::class, 'show']);
         Route::put('/{project}', [ProjectsController::class, 'update']);
         Route::delete('/{project}', [ProjectsController::class, 'destroy']);
+    });
+    Route::prefix('/task')->group(function () {
+        Route::get('/', [TimeEntriesController::class, 'index']);
+        Route::post('/', [TimeEntriesController::class, 'store']);
+        Route::get('/{task}', [TimeEntriesController::class, 'show']);
+        Route::put('/{task}', [TimeEntriesController::class, 'update']);
+        Route::delete('/{task}', [TimeEntriesController::class, 'destroy']);
     });
 });
 
