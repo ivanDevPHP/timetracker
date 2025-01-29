@@ -85,7 +85,7 @@ class ClientsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], $e->getStatusCode());
+            ], 500);
         }
     }
 
@@ -126,7 +126,7 @@ class ClientsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], $e->getStatusCode());
+            ], 500);
         }catch (ValidationException $e) {
             // Log the exception for debugging purposes (optional)
             \Log::error('Validation failed:', $e->errors());
@@ -162,7 +162,7 @@ class ClientsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ], $e->getStatusCode());
+            ], 500);
         }
     }
 }
